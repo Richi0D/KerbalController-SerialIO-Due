@@ -131,7 +131,7 @@ void define_vessel_data_display() {
   switch (PageDisplay1){
 
     case 4:  // update SAS Buttons  
-     SASval = getSASMode();
+     //SASval = getSASMode();
      //if (SASval <> SASset){
       switch (SASset){
         case 0: //SMOFF
