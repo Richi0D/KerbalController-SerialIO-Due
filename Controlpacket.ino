@@ -45,11 +45,13 @@ void define_control_packet() {
     //here we define what controls to send when which pins are manipulate
 
     //toggle switches
-    if(!digitalRead(pSAS)){MainControls(SAS, true); setSASMode(SASset);} else {MainControls(SAS, false);}
+    if(!digitalRead(pSAS)){MainControls(SAS, true);} else {MainControls(SAS, false);}
     if(!digitalRead(pRCS)){MainControls(RCS, true);} else {MainControls(RCS, false);}
     if(digitalRead(pABORT)){MainControls(ABORT, true);} else {MainControls(ABORT, false);}
     
     if(debouncerBrakes.pressed()){MainControls(BRAKES, !brakes_on);}        
+    
+    //setSASMode(SASset);
     
     //send the control packet to the KSPSerialIO plugin
     KSPBoardSendData(details(CPacket)); 
