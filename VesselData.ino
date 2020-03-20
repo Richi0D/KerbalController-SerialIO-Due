@@ -12,8 +12,7 @@ int16_t get_vessel_data() {
   now = millis();
 
   if (KSPBoardReceiveData()){
-    //data is being received
-    deadtimeOld = now;   
+    //data is being received 
     returnValue = id;
     switch(id) {
     case 0: //First packet is a handshake packet
