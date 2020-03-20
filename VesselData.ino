@@ -127,12 +127,15 @@ void define_vessel_data_display() {
 
   AtmosphereGauge(VData.Density);   //call Atmosphere gauge
   
+  //update SASmode, add refreshtime if update to fast
+  SASval = getSASMode();
+  if (SASset <> SASval){SASset = SASval;}
+  
   //update button LEDs based on in-game status
   switch (PageDisplay1){
 
     case 4:  // update SAS Buttons  
-     //SASval = getSASMode();
-     //if (SASval <> SASset){
+      
       switch (SASset){
         case 0: //SMOFF
           sendToDisplay1(String("dsoff.val=") + String(0));
@@ -267,7 +270,6 @@ void define_vessel_data_display() {
           sendToDisplay1(String("dsrettarg.val=") + String(0));
         break;                                                                       
         }
-       //}
     break;
     
     case 5:  // update Wavepage    
