@@ -89,42 +89,56 @@ void dsoffPushCallback(void *ptr){
   dsoff.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=1;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsmanPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsman.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=10;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsproPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dspro.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=2;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsretPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsret.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=3;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsnormPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsnorm.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=4;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsantiPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsanti.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=5;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsradoutPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsradout.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=7;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsradinPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
@@ -137,12 +151,16 @@ void dstargPushCallback(void *ptr){
   dstarg.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=8;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void dsrettargPushCallback(void *ptr){
   uint32_t valrun = 0;       // Create variable to store value we are going to get
   dsrettarg.getValue(&valrun);  // Read value of dual state button to know the state (0 or 1)
   if (valrun == 1){SASset=9;}
   else {SASset=1;}
+  if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
+  KSPBoardSendData(details(CPacket)); 
   }
 void zoomminPushCallback(void *ptr){if (zoomlevel > 0){zoomlevel--; buildwave();}}
 void zoomplusPushCallback(void *ptr){if (zoomlevel < 3){zoomlevel++; buildwave();}}
