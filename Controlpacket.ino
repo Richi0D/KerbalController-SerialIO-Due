@@ -53,7 +53,7 @@ void define_control_packet() {
     
     //update SASmode, add refreshtime if update to fast
     SASval = getSASMode();
-    if (SASset <> SASval();){SASset = SASval;}
+    if (SASset <> SASval){SASset = SASval;}
 
     //send the control packet to the KSPSerialIO plugin
     KSPBoardSendData(details(CPacket)); 
