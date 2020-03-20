@@ -51,7 +51,9 @@ void define_control_packet() {
     
     if(debouncerBrakes.pressed()){MainControls(BRAKES, !brakes_on);}        
     
-    
+    //update SASmode, add refreshtime if update to fast
+    SASval = getSASMode();
+    if (SASset <> SASval();){SASset = SASval;}
 
     //send the control packet to the KSPSerialIO plugin
     KSPBoardSendData(details(CPacket)); 
