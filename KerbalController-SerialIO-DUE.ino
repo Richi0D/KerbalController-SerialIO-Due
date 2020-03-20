@@ -400,8 +400,9 @@ void loop() {  // put your main code here, to run repeatedly:
   while(!digitalRead(pMODE)){debugfunction();} 
 
   //KSP mode: send and receive data  
-  get_vessel_data();          // update Displays and get Data
+
   send_control_packet();      // set up controls
+  get_vessel_data();          // update Displays and get Data  
   Joystick.sendState();       // send Joystick inputs
   nexLoop(nex_listen_list);   // Check for any touch event  
   wave();                     // save Data and build wave
