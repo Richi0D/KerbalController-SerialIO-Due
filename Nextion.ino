@@ -1,6 +1,7 @@
 const int wavesaveinterval = 1000;   //Saveinterval of the wave
-unsigned long wavetime, wavetimeold = 0;
-int startcounter, counter = 0;
+const int wavebuiltinterval = 0;   //interval of the wavebuilt
+unsigned long wavetime, wavetimeold = 0, wavebuilttime, wavebuilttimeold = 0;
+int startcounter, u, counter = 0;
 float saveline1[320];  //Array size = size of wave length(each pixel is a value)
 long saveline2[320];  //Array size = size of wave length(each pixel is a value)
 long saveline3[320];  //Array size = size of wave length(each pixel is a value)
@@ -162,13 +163,11 @@ void dsrettargPushCallback(void *ptr){
   if(!digitalRead(pSAS)){MainControls(SAS, true);setSASMode(SASset);} else {MainControls(SAS, false);}
   KSPBoardSendData(details(CPacket)); 
   }
-void zoomminPushCallback(void *ptr){if (zoomlevel > 0){zoomlevel--; buildwave();}}
-void zoomplusPushCallback(void *ptr){if (zoomlevel < 3){zoomlevel++; buildwave();}}
+void zoomminPushCallback(void *ptr){if (zoomlevel > 0){zoomlevel--; zoomwave(); wavebuilt = false;}}
+void zoomplusPushCallback(void *ptr){if (zoomlevel < 3){zoomlevel++; zoomwave(); wavebuilt = false;}}
 
-
-//build the wave according to the zoomlevel
-void buildwave(){
-
+// switch zoomlevel
+void zoomwave(){
     switch(zoomlevel){
     case 0: //Zoomlevel Fly High
       if (flyhigh == 0){wavescale = 30000;}
@@ -187,37 +186,50 @@ void buildwave(){
       else {wavescale = highspace*3;}
     break;    
     }
-    
-/*    //nicht gut, füllt zu viel den Buffer.
-    startcounter = counter;       
-    for (int u = 0; u <= 319; u++){ //build wave, u = size of wave length -1 in pixel 
-      if (startcounter>319){startcounter = 0;}
+}
 
-        line1 = map(saveline1[startcounter],0,wavescale,0,pixelhighwave);
-        line1 = constrain(line1,0,pixelhighwave);
-        sendToDisplay1(String("add 5,0,") + String(line1));   //Waveform: [objectID],[Channel],[Value]        
-
-          line2 = map(saveline2[startcounter],0,wavescale,0,pixelhighwave);
-          line2 = constrain(line2,0,pixelhighwave);
-          sendToDisplay1(String("add 5,1,") + String(line2));        
-
-          line3 = map(saveline3[startcounter],0,wavescale,0,pixelhighwave);
-          line3 = constrain(line3,0,pixelhighwave);
-          sendToDisplay1(String("add 5,2,") + String(line3));        
-
-          line4 = map(saveline4[startcounter],0,wavescale,0,pixelhighwave);
-          line4 = constrain(line4,0,pixelhighwave);
-          sendToDisplay1(String("add 5,3,") + String(line4));        
+//build the wave according to the zoomlevel  
+void buildwave(){      
       
-      startcounter++;                
-      } 
-      */    
+      if (u == 0){
+        startcounter = counter;  //save start counter 
+        u = 1;
+      }      
+      else if (u > 0 && u <= 320){     
+        if (startcounter>319){startcounter = 0;}
+  
+            line1 = map(saveline1[startcounter],0,wavescale,0,pixelhighwave);
+            line1 = constrain(line1,0,pixelhighwave);
+            sendToDisplay1(String("add 5,0,") + String(line1));   //Waveform: [objectID],[Channel],[Value]        
+          
+            line2 = map(saveline2[startcounter],0,wavescale,0,pixelhighwave);
+            line2 = constrain(line2,0,pixelhighwave);
+            sendToDisplay1(String("add 5,1,") + String(line2));        
+  
+            line3 = map(saveline3[startcounter],0,wavescale,0,pixelhighwave);
+            line3 = constrain(line3,0,pixelhighwave);
+            sendToDisplay1(String("add 5,2,") + String(line3));        
+  
+            line4 = map(saveline4[startcounter],0,wavescale,0,pixelhighwave);
+            line4 = constrain(line4,0,pixelhighwave);
+            sendToDisplay1(String("add 5,3,") + String(line4));        
+        u++;
+        startcounter++;        
+      }
+      else {u = 0; wavebuilt = true;}                        
 }
 
 //Save values while display not active, if display active build wave.
 void wave(){
 now = millis();
-wavetime = now - wavetimeold; 
+
+  wavebuilttime = now - wavebuilttimeold; 
+  if (wavebuilttime > wavebuiltinterval) {
+    wavebuilttimeold = now;    
+      if (PageDisplay1==5 && !wavebuilt){zoomwave(); buildwave();} //Build wave when first time loaded    
+  }
+
+  wavetime = now - wavetimeold; 
   if (wavetime > wavesaveinterval) {
     wavetimeold = now; 
    
@@ -227,16 +239,12 @@ wavetime = now - wavetimeold;
     saveline3[counter]=lowspace;
     saveline4[counter]=highspace;
       
-    if (PageDisplay1==5)
+    if (PageDisplay1==5 && wavebuilt)
     {
-      if (not wavebuilt){buildwave();} //Build wave when first time loaded
-      wavebuilt = true;
-
-      line1 = map(Altitude,0,wavescale,0,pixelhighwave);
-      line1 = constrain(line1,0,pixelhighwave);
-      sendToDisplay1(String("add 5,0,") + String(line1));   //Waveform: [objectID],[Channel],[Value]
-
-   
+          line1 = map(Altitude,0,wavescale,0,pixelhighwave);
+          line1 = constrain(line1,0,pixelhighwave);
+          sendToDisplay1(String("add 5,0,") + String(line1));   //Waveform: [objectID],[Channel],[Value]
+ 
           line2 = map(flyhigh,0,wavescale,0,pixelhighwave);
           line2 = constrain(line2,0,pixelhighwave);
           sendToDisplay1(String("add 5,1,") + String(line2));
@@ -248,7 +256,6 @@ wavetime = now - wavetimeold;
           line4 = map(highspace,0,wavescale,0,pixelhighwave);
           line4 = constrain(line4,0,pixelhighwave);     
           sendToDisplay1(String("add 5,3,") + String(line4));
- 
     } 
     else{wavebuilt = false;}
     counter++; //add +1 to counter 

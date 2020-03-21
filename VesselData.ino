@@ -12,7 +12,8 @@ int16_t get_vessel_data() {
   now = millis();
 
   if (KSPBoardReceiveData()){
-    //data is being received 
+    //data is being received
+    deadtimeOld = now;
     returnValue = id;
     switch(id) {
     case 0: //First packet is a handshake packet
@@ -128,7 +129,7 @@ void define_vessel_data_display() {
   
   //update SASmode, add refreshtime if update to fast
   SASval = getSASMode();
-  if (SASset <> SASval){SASset = SASval;}
+  if (SASset != SASval){SASset = SASval;}
   
   //update button LEDs based on in-game status
   switch (PageDisplay1){
