@@ -175,14 +175,7 @@ void joystick_keyboard(){
       
       break;            
   } 
-/*  //Switches (SAS, RCS, ABORT)
-  if(!digitalRead(pSAS) && !SAS_on){Keyboard.write('T');}
-  else if (digitalRead(pSAS) && SAS_on){Keyboard.write('T');}
-  if(!digitalRead(pRCS) && !RCS_on){Keyboard.write('R');}
-  else if (digitalRead(pRCS) && RCS_on){Keyboard.write('R');}
-  if(digitalRead(pABORT) && !abort_on){Keyboard.write(178);}
-  else if (!digitalRead(pABORT) && abort_on){Keyboard.write(178);}
-*/  
+
   //momentary stage button
   if(debouncerStage.pressed() && digitalRead(pARM)){Keyboard.write(32);}
   

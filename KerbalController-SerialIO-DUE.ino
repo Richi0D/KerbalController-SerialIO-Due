@@ -138,7 +138,7 @@ int chooseled = 0;
 
 //variables used in timing
 const int IDLETIMER = 4000;        //if no message received from KSP for more than 5s, go idle (default 2000)
-const int CONTROLREFRESH = 100;      //send control packet every 20 ms (default 25)
+const int CONTROLREFRESH = 50;      //send control packet every 20 ms (default 25)
 const int DISPLAYREFRESH = 100;      //refresh Display every 50 ms = 20fps
 unsigned long deadtime, deadtimeOld, controlTime, controlTimeOld, displayTime, displayTimeOld = 0;
 unsigned long debugtime, debugtimeOld =0, atmotime, atmotimeOld =0;
@@ -147,9 +147,11 @@ unsigned long now = 0;
 //variables used in serial communication
 boolean Connected = false;
 byte id =0;
+
 //variables used for display status
 byte PageDisplay1 = 0;              //Page display1
 byte PageDisplay2 = 0;              //Page display2 
+
 //variables used for motorfader
 int throttletarget;
 int theThreshold = 10;
@@ -358,7 +360,7 @@ NexTouch *nex_listen_list[] =
 
 
 void setup() {  // put your setup code here, to run once:
-
+ 
   Serial.begin(115200);   //KSPSerialIO connection
   Serial1.begin(115200);  //Display1 connection
   Serial2.begin(115200);  //Display2 connection
@@ -384,7 +386,8 @@ void setup() {  // put your setup code here, to run once:
     Joystick.setRyAxisRange(0, 1023);
     Joystick.setRzAxisRange(0, 1023);
     Joystick.setThrottleRange(0, 1023);
- 
+    //Joystick.setAcceleratorRange(0, 1023);
+     
       PageDisplay1 = 0;
       PageDisplay2 = 0; 
       sendToDisplay1(String("page ") + String(PageDisplay1));
@@ -392,6 +395,9 @@ void setup() {  // put your setup code here, to run once:
       sendToDisplay2(String("page ") + String(PageDisplay2));
       sendToDisplay2(String("boot.txt=\"") + String("booting complete")+String("\""));
       SASset = 1;
+      
+      pinMode(LED_BUILTIN, OUTPUT);
+      digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {  // put your main code here, to run repeatedly:
@@ -405,4 +411,9 @@ void loop() {  // put your main code here, to run repeatedly:
   send_control_packet();      // set up controls
   get_vessel_data();          // update Displays and get Data  
   wave();                     // save Data and build wave
+
+    //reset with buttons
+    if (!digitalRead(pACTION1) && !digitalRead(pACTION2) && !digitalRead(pACTION3)){
+      rstc_start_software_reset(RSTC);
+    }
   }

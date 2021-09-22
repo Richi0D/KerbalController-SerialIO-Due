@@ -133,9 +133,7 @@ void define_vessel_data_display() {
   
   //update button LEDs based on in-game status
   switch (PageDisplay1){
-
     case 4:  // update SAS Buttons  
-      
       switch (SASset){
         case 0: //SMOFF
           sendToDisplay1(String("dsoff.val=") + String(0));

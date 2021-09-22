@@ -65,14 +65,14 @@ void registernextionevent() //register event callback function for nextion butto
 }
 
 // Events for button
-void warpminusPushCallback(void *ptr){Keyboard.write(44);}
-void warpstopPushCallback(void *ptr){Keyboard.write(47);}
-void warpplusPushCallback(void *ptr){Keyboard.write(46);}
-void vesselprevPushCallback(void *ptr){Keyboard.write(123);}
+void warpminusPushCallback(void *ptr){Keyboard.write(44);} //,
+void warpstopPushCallback(void *ptr){Keyboard.write(47);}//-
+void warpplusPushCallback(void *ptr){Keyboard.write(46);}//.
+void vesselprevPushCallback(void *ptr){Keyboard.write(91);}//ü
 void mapviewPushCallback(void *ptr){Keyboard.write('M');}
-void vesselnextPushCallback(void *ptr){Keyboard.write(93);}
+void vesselnextPushCallback(void *ptr){Keyboard.write(93);}//+
 void cameraivaPushCallback(void *ptr){Keyboard.write('C');}
-void cameraresetPushCallback(void *ptr){Keyboard.write(96);}
+void cameraresetPushCallback(void *ptr){Keyboard.write(96);}//^
 void cameranextPushCallback(void *ptr){Keyboard.write('V');}
 void evaboardPushCallback(void *ptr){Keyboard.write('B');}
 void evausePushCallback(void *ptr){Keyboard.write('F');}
